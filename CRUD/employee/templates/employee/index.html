@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Index</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/form.css' %}" />
+</head>
+
+<body>
+    <div class="container">
+        <form method="POST" action="/show/1">
+            {% csrf_token %}
+            <div>
+                <h2>Enater Employee Details</h2>
+            </div>
+<!-- 
+            <div class="form-group row">
+                <label class="col-sm-1 col-form-label"></label>
+                <div class="col-sm-4">
+                    <h3>Enter Details</h3>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Employee Id:</label>
+                <div class="col-sm-4">
+                    {{ form.e_id }}
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Employee Name:</label>
+                <div class="col-sm-4">
+                    {{ form.e_name }}
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Employee Designation:</label>
+                <div class="col-sm-4">
+                    {{ form.e_designation }}
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Employee Email:</label>
+                <div class="col-sm-4">
+                    {{ form.e_email }}
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Employee Contact:</label>
+                <div class="col-sm-4">
+                    {{ form.e_contact }}
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-sm-1 col-form-label"></label>
+                <div class="col-sm-4">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div> -->
+
+            <ul>
+                <li>
+                  <label for="name">Employee Id:</label>
+                  {{ form.e_id }}
+                </li>
+                <li>
+                  <label for="name">Employee Name:</label>
+                  {{ form.e_name }}
+                </li>
+                <li>
+                  <label for="mail">Employee Designation:</label>
+                  {{ form.e_designation}}
+                </li>
+                <li>
+                  <label for="msg">Employee Email:</label>
+                  {{ form.e_email}}
+                </li>
+                <li>
+                  <label for="msg">Employee Contact:</label>
+                  {{ form.e_contact }}
+                </li>
+                <li >
+                    <center><button type="submit" class="btn btn-primary">Submit</button></center>
+                </li>
+            </ul>
+              
+
+        </form>
+    </div>
+</body>
+
+</html>
