@@ -9,9 +9,9 @@
     <body>
         <form action='/show/1' method='GET'>
             {% csrf_token %}
-        <input type='text' placeholder='search' name='search'/>
-        <input type='submit'/>
-    </form>
+            <input type='text' placeholder='search' name='search' />
+            <input type='submit' />
+        </form>
         <table>
             <tr>
                 <th>Employee Id</th>
@@ -31,25 +31,25 @@
                     <td>{{ employee.e_email }}</td>
                     <td>{{ employee.e_contact }}</td>
                     <td>
-                        <button class="buttona"><a href="/edit/{{ employee.id }}"><span class="glyphicon glyphicon-pencil">Edit</span></a></button>
+                        <button class="buttona"><a href="/update/{{ employee.id }}/{{current_page}}"><span
+                                    class="glyphicon glyphicon-pencil">Edit</span></a></button>
                         <button class="buttona"><a href={% url 'delete' id=employee.id page=current_page %}>Delete</a><button>
                     </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
-    </table>  
-    <br>  
-    <form action='' method='GET'>
-        {% csrf_token %}
-    {% for page_no in total_page %}
-    <button>
-        <a href={% url 'show_name' page=page_no %}>{{page_no}}</a>
-    </button>
-    {% endfor %}
-</form>
-    <br>  
-    <center><button class="buttona"><a href="/emp">Add New Record</a></button></center>  
+        <br>
+        <form action='' method='GET'>
+            {% csrf_token %}
+            {% for page_no in total_page %}
+            <button>
+                <a href={% url 'show_name' page=page_no %}>{{page_no}}</a>
+            </button>
+            {% endfor %}
+        </form>
+        <br>
+        <center><button class="buttona"><a href="/emp">Add New Record</a></button></center>
     </body>
 
 </html>

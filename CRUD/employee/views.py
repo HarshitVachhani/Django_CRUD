@@ -10,22 +10,28 @@ from django.db.models import Q
 
 def loop(request):
     for i in range(10):
-        Employee.objects.create(e_id=i, e_name='natasha', e_designation='black', e_email='nat@gmail.com', e_contact='1234567890')
+        Employee.objects.create(e_id=i, e_name='het', e_designation='web_dev', e_email='het@gmail.com', e_contact='1234567890')
         
     return HttpResponse('<h1>done broooo</h1>')
 
 def emp(request):  
+    paginator = Pagination()
+    last_page = Employee.objects.all().count() // 10 + 1
+    employees, total_page, total_record = paginator.paginate(page=last_page)
+    if total_page > last_page:
+        last_page = last_page + 1  
     if request.method == "POST":  
         form = EmployeeForm(request.POST)  
         if form.is_valid():  
             try:  
-                form.save()  
-                return redirect('/show')  
-            except:  
-                pass  
+                form.save()
+                return redirect('/show/'+str(last_page)) 
+            except ValueError:  
+                print('oops....')
+        return redirect("/show/"+str(last_page)) 
     else:  
         form = EmployeeForm()  
-    return render(request,'employee/index.html',{'form':form})
+    return render(request,'employee/index.html',{'form': form})
   
 def emp_show(request, page):  
     search = request.GET.get('search')
@@ -38,22 +44,32 @@ def emp_show(request, page):
         return render(request,"employee/show.html",{'employees':employees, 'current_page':page})  
     
 
-def emp_edit(request, id):  
-    employee = Employee.objects.get(id=id)  
-    return render(request,'employee/edit.html', {'employee':employee})  
+# def emp_edit(request, id):  
+#     if request.method == 'POST':
+#         return redirect('/show/')
+#     employee = Employee.objects.get(id=id)  
+#     return render(request,'employee/edit.html', {'employee':employee})  
 
-def emp_update(request, id):  
-    employee = Employee.objects.get(id=id)  
-    form = EmployeeForm(request.POST, instance = employee)  
-    if form.is_valid():  
-        form.save()  
-        return redirect("/show")  
-    return render(request, 'employee/edit.html', {'employee': employee})  
+def emp_update(request, id, page):  
+    if request.method == 'POST':
+        paginator = Pagination()
+        employees, total_page, total_record = paginator.paginate(page=page)
+        employee = Employee.objects.get(id=id)  
+        form = EmployeeForm(request.POST, instance = employee)
+        if form.is_valid():  
+            form.save()  
+            return redirect("/show/"+str(page))  
+    else:
+        employee = Employee.objects.get(id=id)  
+        form = EmployeeForm(instance = employee)
+        return render(request, 'employee/edit.html', {'form': form, 'employee': employee, 'current_page':page})  
 
 def emp_delete(request, id, page):  
     employee = Employee.objects.get(id=id)  
     employee.delete()  
     paginator = Pagination()
     employees, total_page, total_record = paginator.paginate(page=page)
+    if total_page < page:
+        page = page - 1
     print('total_page: ', total_page)
     return redirect('/show/'+str(page))  
